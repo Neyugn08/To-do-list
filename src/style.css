@@ -43,6 +43,10 @@ body {
 }
 
 .footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.5rem;
     grid-row: -1;
     grid-column: 1 / -1;
 }
@@ -55,4 +59,8 @@ input:focus {
 input, button {
     border: 0.5px solid gray;
     border-radius: 3px;
+}
+
+.hoverEffect:hover {
+    background-color: rgb(232, 232, 232);
 }
