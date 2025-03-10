@@ -9,7 +9,24 @@ export default class ObjCreator {
     // number of creators allowed to exist simultanously
     maxProjectCreator = 1;
     maxTaskCreator = 1;
-    createNewObj(location) {
+    createNewObj(name) {
+        if (this.type == "project") {
+            // Initiating a new project
+            const newProject = new Project(name);
+            newProject.newProjectDOM();
+            // Reset the number of creators
+            this.maxProjectCreator = 1;
+        }
+        else if (this.type == "task") {
+            // Initiating a new task
+            const newTask = new Task(name);
+            newTask.newTaskDOM();
+            // Linking the current project to its tasks
+            Window.currentProject.tasks.push(newTask);
+            this.maxTaskCreator = 1;
+        }
+    }
+    createNewObjDOM(location) {
         if (Window.currentProject == null && this.type == "task") {
             this.maxTaskCreator = 0;
             return;
@@ -40,48 +57,28 @@ export default class ObjCreator {
         createBtn.addEventListener("click", () => {
             if (input.value.length == 0) return;
             projectName.remove();
-            if (this.type == "project") {
-                // Initiating a new project
-                const newProject = new Project(input.value);
-                newProject.newProject();
-                // Setting the context of the current window
-                Window.currentProject = newProject;
-                // Reset the number of creators
-                this.maxProjectCreator = 1;
-            }
-            else if (this.type == "task") {
-                // Initiating a new task
-                const newTask = new Task(input.value);
-                newTask.newTask();
-                // Linking the current project to its tasks
-                Window.currentProject.tasks.push(newTask);
-                this.maxTaskCreator = 1;
-            }
+            this.createNewObj(input.value);
         });
         cancelBtn.addEventListener("click", () => {
-            if (this.type == "project") {
-                projectName.remove();
-                this.maxProjectCreator = 1;
-            }
-            else if (this.type == "task") {
-                projectName.remove();
-                this.maxTaskCreator = 1;
-            }
+            projectName.remove();
+            if (this.type == "project") this.maxProjectCreator = 1;
+            else if (this.type == "task") this.maxTaskCreator = 1;
         });
     }
     newObjCreator(location) {
         const uiObjCreator = document.createElement("div");
+        uiObjCreator.setAttribute('class', 'hoverEffect');
         uiObjCreator.style.fontSize = "3vw";
         uiObjCreator.textContent = `+ New ${this.type}`;
         uiObjCreator.addEventListener("click", () => {
             if (this.type == "project") {
-                if (this.maxProjectCreator == 1) this.createNewObj(location);
+                if (this.maxProjectCreator == 1) this.createNewObjDOM(location);
                 else return;
                 this.maxProjectCreator++;
             }
             else if (this.type == "task") {
                 //console.log(this.maxTaskCreator)
-                if (this.maxTaskCreator == 1) this.createNewObj(location);
+                if (this.maxTaskCreator == 1) this.createNewObjDOM(location);
                 else return;
                 this.maxTaskCreator++;
             }

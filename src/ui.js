@@ -1,3 +1,4 @@
+import './style.css';
 import ObjCreator from "./objCreation.js";
 import {Project} from "./project.js";
 import {Task} from "./task.js";
@@ -10,5 +11,5 @@ class todoList {
 // Ini task and project creators
 const projectCreator = new ObjCreator("project");
 projectCreator.newObjCreator(projects);
-const taskCreator = new ObjCreator("task");
-taskCreator.newObjCreator(window);
+
+
