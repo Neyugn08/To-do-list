@@ -7,6 +7,7 @@ module.exports = {
     output: {
         filename: "main.js",
         path: path.resolve(__dirname, "dist"),
+        // clean all files of dist before bundlings
         clean: true,
     },
     devtool: "eval-source-map",

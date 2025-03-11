@@ -1,4 +1,5 @@
 import {Project} from "./project.js";
+import {Projects} from "./projects.js";
 import {Task} from "./task.js";
 import {Window} from "./window.js";
 export default class ObjCreator {
@@ -6,16 +7,14 @@ export default class ObjCreator {
         this.type = type;
         this.uiVersion;
     }
-    // number of creators allowed to exist simultanously
-    maxProjectCreator = 1;
-    maxTaskCreator = 1;
     createNewObj(name) {
         if (this.type == "project") {
             // Initiating a new project
             const newProject = new Project(name);
             newProject.newProjectDOM();
+            Projects.listProjects.push(newProject);
             // Reset the number of creators
-            this.maxProjectCreator = 1;
+            Window.maxProjectCreator = 1;
         }
         else if (this.type == "task") {
             // Initiating a new task
@@ -23,12 +22,12 @@ export default class ObjCreator {
             newTask.newTaskDOM();
             // Linking the current project to its tasks
             Window.currentProject.tasks.push(newTask);
-            this.maxTaskCreator = 1;
+            Window.maxTaskCreator = 1;
         }
     }
     createNewObjDOM(location) {
         if (Window.currentProject == null && this.type == "task") {
-            this.maxTaskCreator = 0;
+            Window.maxTaskCreator = 0;
             return;
         }
         // Adding an input field for new projects' names
@@ -72,15 +71,15 @@ export default class ObjCreator {
         uiObjCreator.textContent = `+ New ${this.type}`;
         uiObjCreator.addEventListener("click", () => {
             if (this.type == "project") {
-                if (this.maxProjectCreator == 1) this.createNewObjDOM(location);
+                if (Window.maxProjectCreator == 1) this.createNewObjDOM(location);
                 else return;
-                this.maxProjectCreator++;
+                Window.maxProjectCreator++;
             }
             else if (this.type == "task") {
                 //console.log(this.maxTaskCreator)
-                if (this.maxTaskCreator == 1) this.createNewObjDOM(location);
+                if (Window.maxTaskCreator == 1) this.createNewObjDOM(location);
                 else return;
-                this.maxTaskCreator++;
+                Window.maxTaskCreator++;
             }
         });
         this.uiVersion = uiObjCreator;
