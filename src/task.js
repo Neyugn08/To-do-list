@@ -1,6 +1,5 @@
 import {Window} from "./window.js";
 import {mnpltr} from "./storage.js";
-import {format} from "date-fns";
 const window = document.querySelector(".window");
 export class Task {
     constructor(name) {
