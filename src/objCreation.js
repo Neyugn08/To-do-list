@@ -2,6 +2,7 @@ import {Project} from "./project.js";
 import {Projects} from "./projects.js";
 import {Task} from "./task.js";
 import {Window} from "./window.js";
+import {mnpltr} from "./storage.js";
 export default class ObjCreator {
     constructor(type) {
         this.type = type;
@@ -15,6 +16,7 @@ export default class ObjCreator {
             Projects.listProjects.push(newProject);
             // Reset the number of creators
             Window.maxProjectCreator = 1;
+            mnpltr.savePrjsStorage();
         }
         else if (this.type == "task") {
             // Initiating a new task
@@ -23,6 +25,7 @@ export default class ObjCreator {
             // Linking the current project to its tasks
             Window.currentProject.tasks.push(newTask);
             Window.maxTaskCreator = 1;
+            mnpltr.savePrjsStorage();
         }
     }
     createNewObjDOM(location) {

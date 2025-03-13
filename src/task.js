@@ -1,11 +1,13 @@
 import {Window} from "./window.js";
+import {mnpltr} from "./storage.js";
+import {format} from "date-fns";
 const window = document.querySelector(".window");
 export class Task {
     constructor(name) {
         this.name = name;
         this.uiVersion;
         this.date;
-        this.status;
+        this.status = null;
     }
     newTaskDOM() {
         const uiTask = document.createElement("div");
@@ -23,11 +25,16 @@ export class Task {
         status.style.width = "3vw";
         status.style.height = "3vw";
         status.style.accentColor = "green";
+        if (this.status !== null) status.checked = this.status;
+        status.addEventListener("click", () => {
+            this.status = status.checked;
+            mnpltr.savePrjsStorage();
+        });
         // name
         const taskName = document.createElement("div");
         taskName.textContent = this.name;
         // date
-        // I will do this later
+        console.log(new Date());
         // delete 
         const del = document.createElement("div");
         del.textContent = "X";
@@ -44,12 +51,13 @@ export class Task {
             if (index !== -1) {
                 Window.currentProject.tasks.splice(index, 1);
             }
+            // remove from the storage
+            mnpltr.savePrjsStorage();
         });
-
         uiTask.appendChild(status);
         uiTask.appendChild(taskName);
         uiTask.appendChild(del);
         this.uiVersion = uiTask;
-        window.appendChild(uiTask);
+        if (Window.currentProject !== null) window.appendChild(uiTask);
     }
 };

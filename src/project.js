@@ -1,6 +1,7 @@
 import {Window} from "./window.js";
 import {Projects} from "./projects.js";
 import ObjCreator from "./objCreation.js";
+import {mnpltr} from "./storage.js";
 const projects = document.querySelector(".projects");
 const window = document.querySelector(".window");
 export class Project {
@@ -46,6 +47,8 @@ export class Project {
                 window.replaceChildren("");
             }
             display = false;
+            // remove the prjs from the storage
+            mnpltr.savePrjsStorage();
         });
         uiProject.appendChild(projectName);
         uiProject.appendChild(del);
@@ -78,7 +81,6 @@ export class Project {
     ini1stTaskCreator() {
         // Initialize taskCreator if there are no projects
         const taskCreator = new ObjCreator("task");
-        console.log(taskCreator);
         taskCreator.newObjCreator(window);
     }
 };
