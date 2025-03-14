@@ -1,11 +1,12 @@
 import {Window} from "./window.js";
 import {mnpltr} from "./storage.js";
+import {format} from "date-fns";
 const window = document.querySelector(".window");
 export class Task {
     constructor(name) {
         this.name = name;
         this.uiVersion;
-        this.date;
+        this.date = null;
         this.status = null;
     }
     newTaskDOM() {
@@ -33,7 +34,13 @@ export class Task {
         const taskName = document.createElement("div");
         taskName.textContent = this.name;
         // date
-        console.log(new Date());
+        const time = document.createElement("input");
+        time.type = "date";
+        if (this.date !== null) time.value = this.date;
+        time.addEventListener("change", () => {
+            this.date = time.value;
+            mnpltr.savePrjsStorage();
+        });
         // delete 
         const del = document.createElement("div");
         del.textContent = "X";
@@ -55,6 +62,7 @@ export class Task {
         });
         uiTask.appendChild(status);
         uiTask.appendChild(taskName);
+        uiTask.appendChild(time);
         uiTask.appendChild(del);
         this.uiVersion = uiTask;
         if (Window.currentProject !== null) window.appendChild(uiTask);

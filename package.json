@@ -10,10 +10,11 @@
     "webpack-dev-server": "^5.2.0"
   },
   "scripts": {
-    "predeploy": "npm run build",
+    "start": "webpack serve --open",
+    "predeploy": "webpack --mode production",
     "deploy": "gh-pages -d dist",
-    "build": "webpack --mode production",
-    "serve": "webpack serve --open"
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "dependencies": {
     "date-fns": "^4.1.0"

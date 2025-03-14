@@ -18,6 +18,10 @@ class storageMnpltr {
                 for (let j = 0, h = Projects.listProjects[i].tasks.length; j < h; j++) {
                     Projects.listProjects[i].tasks[j].status = fetchData[i].tasks[j].status;
                 }
+                // restore the date of tasks 
+                for (let j = 0, h = Projects.listProjects[i].tasks.length; j < h; j++) {
+                    Projects.listProjects[i].tasks[j].date = fetchData[i].tasks[j].date;
+                }
             }
         }
     }

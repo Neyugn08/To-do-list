@@ -71,7 +71,7 @@ export default class ObjCreator {
         const uiObjCreator = document.createElement("div");
         uiObjCreator.setAttribute('class', 'hoverEffect');
         uiObjCreator.style.fontSize = "3vw";
-        uiObjCreator.textContent = `+ New ${this.type}`;
+        uiObjCreator.textContent = this.type;
         uiObjCreator.addEventListener("click", () => {
             if (this.type == "project") {
                 if (Window.maxProjectCreator == 1) this.createNewObjDOM(location);
