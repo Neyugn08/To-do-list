@@ -19,7 +19,7 @@ export class Project {
         uiProject.style.padding = "0px 1px";
         uiProject.style.fontSize = "3vw";
         uiProject.style.border = '0.25px solid black';
-        uiProject.style.borderRadius = "2px";
+        uiProject.style.borderRadius = "4px";
         this.uiVersion = uiProject;
         projects.appendChild(uiProject);
         // name
@@ -79,7 +79,6 @@ export class Project {
         // reset the current window
         window.innerHTML = "";
         this.ini1stTaskCreator();
-        Window.maxProjectCreator = 1;
         Window.maxTaskCreator = 1;
         // show the tasks of the current project
         for (let i = 0; i < this.tasks.length; i++) {
@@ -98,7 +97,6 @@ export class Project {
                     window.appendChild(Projects.listProjects[i].tasks[j].uiVersion);
                 }
             }
-            
         }
     }
     ini1stTaskCreator() {

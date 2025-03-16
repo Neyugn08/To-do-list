@@ -72,6 +72,7 @@ export default class ObjCreator {
         const uiObjCreator = document.createElement("div");
         uiObjCreator.setAttribute('class', 'hoverEffect');
         uiObjCreator.style.border = '0.25px solid black';
+        uiObjCreator.style.borderRadius = "4px";
         uiObjCreator.style.fontSize = "3vw";
         uiObjCreator.textContent = `+ New ${this.type}`;
         uiObjCreator.addEventListener("click", () => {

@@ -1,6 +1,7 @@
 import {Window} from "./window.js";
 import {mnpltr} from "./storage.js";
 import {format} from "date-fns";
+import {Projects} from "./projects.js";
 const window = document.querySelector(".window");
 export class Task {
     constructor(name) {
@@ -14,7 +15,7 @@ export class Task {
         uiTask.setAttribute('class', 'hoverEffect');
         uiTask.style.fontSize = "3vw";
         uiTask.style.border = '0.25px solid black';
-        uiTask.style.borderRadius = "2px";
+        uiTask.style.borderRadius = "4px";
         uiTask.style.display = "flex";
         uiTask.style.justifyContent = "space-between";
         uiTask.style.alignItems = "center";
@@ -54,9 +55,25 @@ export class Task {
         // delete both ui and real version of tasks
         del.addEventListener("click", () => {
             uiTask.remove();
-            const index = Window.currentProject.tasks.findIndex(tasks => tasks.name === this.name);
-            if (index !== -1) {
-                Window.currentProject.tasks.splice(index, 1);
+            if (Window.currentProject.name != "today") {
+                const index = Window.currentProject.tasks.findIndex(tasks => tasks.name === this.name);
+                if (index !== -1) {
+                    Window.currentProject.tasks.splice(index, 1);
+                }
+            }
+            else {
+                loop: for (let i = 0, l = Projects.listProjects.length; i < l; i++) {
+                    for (let j = 0, h = Projects.listProjects[i].tasks.length; j < h; j++) {
+                        if (Projects.listProjects[i].tasks[j].date == this.date &&
+                            Projects.listProjects[i].tasks[j].name == this.name
+                        ) {
+                            console.log(Projects.listProjects[i]);
+                            const index = j;
+                            Projects.listProjects[i].tasks.splice(index, 1);
+                            break loop;
+                        }
+                    }  
+                }
             }
             // remove from the storage
             mnpltr.savePrjsStorage();
