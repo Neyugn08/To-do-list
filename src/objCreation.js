@@ -3,6 +3,7 @@ import {Projects} from "./projects.js";
 import {Task} from "./task.js";
 import {Window} from "./window.js";
 import {mnpltr} from "./storage.js";
+import {format} from "date-fns";
 export default class ObjCreator {
     constructor(type) {
         this.type = type;
@@ -63,15 +64,16 @@ export default class ObjCreator {
         });
         cancelBtn.addEventListener("click", () => {
             projectName.remove();
-            if (this.type == "project") this.maxProjectCreator = 1;
-            else if (this.type == "task") this.maxTaskCreator = 1;
+            if (this.type == "project") Window.maxProjectCreator = 1;
+            else if (this.type == "task") Window.maxTaskCreator = 1;
         });
     }
     newObjCreator(location) {
         const uiObjCreator = document.createElement("div");
         uiObjCreator.setAttribute('class', 'hoverEffect');
+        uiObjCreator.style.border = '0.25px solid black';
         uiObjCreator.style.fontSize = "3vw";
-        uiObjCreator.textContent = this.type;
+        uiObjCreator.textContent = `+ New ${this.type}`;
         uiObjCreator.addEventListener("click", () => {
             if (this.type == "project") {
                 if (Window.maxProjectCreator == 1) this.createNewObjDOM(location);
@@ -79,7 +81,6 @@ export default class ObjCreator {
                 Window.maxProjectCreator++;
             }
             else if (this.type == "task") {
-                //console.log(this.maxTaskCreator)
                 if (Window.maxTaskCreator == 1) this.createNewObjDOM(location);
                 else return;
                 Window.maxTaskCreator++;

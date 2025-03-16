@@ -36,6 +36,7 @@ export class Task {
         // date
         const time = document.createElement("input");
         time.type = "date";
+        time.height = "3vw";
         if (this.date !== null) time.value = this.date;
         time.addEventListener("change", () => {
             this.date = time.value;

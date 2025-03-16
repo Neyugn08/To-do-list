@@ -2,6 +2,7 @@ import {Window} from "./window.js";
 import {Projects} from "./projects.js";
 import ObjCreator from "./objCreation.js";
 import {mnpltr} from "./storage.js";
+import {format} from "date-fns";
 const projects = document.querySelector(".projects");
 const window = document.querySelector(".window");
 export class Project {
@@ -24,6 +25,29 @@ export class Project {
         // name
         const projectName = document.createElement("div");
         projectName.textContent = this.name;
+        uiProject.appendChild(projectName);
+        let display = true;
+        // displaying tasks
+        uiProject.addEventListener("click", () => {
+            if (display) {
+            // Setting the context of the current window
+            if (Window.currentProject != null) {
+                Window.currentProject.uiVersion.style.backgroundColor = "white";
+            }
+            // Higlighting the current project
+            Window.currentProject = this;
+            this.uiVersion.style.backgroundColor = "rgb(190, 189, 189)";
+            // Displaying all the tasks of the project
+            if (this.name != "today") this.taskDisplay();
+            else {
+                // today 
+                const currentTime = new Date();
+                const formattedTime = format(currentTime, "yyyy-MM-dd");
+                this.taskDisplayToday(formattedTime);
+                return;
+            }
+        }
+        });
         // detele button
         const del = document.createElement("div");
         del.textContent = "X";
@@ -33,7 +57,6 @@ export class Project {
         del.addEventListener("mouseout", () => {
             del.style.color = "black";
         });
-        let display = true;
         // delete both ui and real version of tasks
         del.addEventListener("click", () => {
             Window.maxProjectCreator = 1;
@@ -50,32 +73,32 @@ export class Project {
             // remove the prjs from the storage
             mnpltr.savePrjsStorage();
         });
-        uiProject.appendChild(projectName);
         uiProject.appendChild(del);
-        // displaying tasks
-        uiProject.addEventListener("click", () => {
-                if (display) {
-                // Setting the context of the current window
-                if (Window.currentProject != null) {
-                    Window.currentProject.uiVersion.style.backgroundColor = "white";
-                }
-                else if (Window.currentProject == null) this.ini1stTaskCreator();
-                // Higlighting the current project
-                Window.currentProject = this;
-                this.uiVersion.style.backgroundColor = "rgb(190, 189, 189)";
-                // Displaying all the tasks of the project
-                this.taskDisplay();
-            }
-        });
     }
     taskDisplay() {
         // reset the current window
-        window.replaceChildren(window.firstElementChild);
+        window.innerHTML = "";
+        this.ini1stTaskCreator();
         Window.maxProjectCreator = 1;
         Window.maxTaskCreator = 1;
         // show the tasks of the current project
         for (let i = 0; i < this.tasks.length; i++) {
             window.appendChild(this.tasks[i].uiVersion);
+        }
+    }
+    taskDisplayToday(time) {
+        // reset the current window
+        window.innerHTML = "";
+        Window.maxProjectCreator = 1;
+        Window.maxTaskCreator = 1;
+        // show today tasks
+        for (let i = 0, l = Projects.listProjects.length; i < l; i++) {
+            for (let j = 0, h = Projects.listProjects[i].tasks.length; j < h; j++) {
+                if (Projects.listProjects[i].tasks[j].date == time) {
+                    window.appendChild(Projects.listProjects[i].tasks[j].uiVersion);
+                }
+            }
+            
         }
     }
     ini1stTaskCreator() {
