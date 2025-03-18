@@ -3,7 +3,7 @@ import {Projects} from "./projects.js";
 import {Task} from "./task.js";
 import {Window} from "./window.js";
 import {mnpltr} from "./storage.js";
-import {format} from "date-fns";
+import updateProg from "./progressBar.js";
 export default class ObjCreator {
     constructor(type) {
         this.type = type;
@@ -26,6 +26,7 @@ export default class ObjCreator {
             // Linking the current project to its tasks
             Window.currentProject.tasks.push(newTask);
             Window.maxTaskCreator = 1;
+            updateProg();
             mnpltr.savePrjsStorage();
         }
     }

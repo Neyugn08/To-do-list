@@ -3,6 +3,7 @@ import {Projects} from "./projects.js";
 import ObjCreator from "./objCreation.js";
 import {mnpltr} from "./storage.js";
 import {format} from "date-fns";
+import updateProg from "./progressBar.js";
 const projects = document.querySelector(".projects");
 const window = document.querySelector(".window");
 export class Project {
@@ -38,17 +39,20 @@ export class Project {
             Window.currentProject = this;
             this.uiVersion.style.backgroundColor = "rgb(190, 189, 189)";
             // Displaying all the tasks of the project
-            if (this.name != "today") this.taskDisplay();
+            if (this.name != "today") {
+                this.taskDisplay();
+                this.progUpdate();
+            }
             else {
                 // today 
                 const currentTime = new Date();
                 const formattedTime = format(currentTime, "yyyy-MM-dd");
                 this.taskDisplayToday(formattedTime);
-                return;
             }
         }
         });
         // detele button
+        if (this.name == "today") return;
         const del = document.createElement("div");
         del.textContent = "X";
         del.addEventListener("mouseover", () => {
@@ -66,6 +70,7 @@ export class Project {
                 Projects.listProjects.splice(index, 1);
             }
             if (Projects.listProjects.length == 0) {
+                updateProg("reset");
                 Window.currentProject = null;
                 window.replaceChildren("");
             }
@@ -98,6 +103,10 @@ export class Project {
                 }
             }
         }
+    }
+    progUpdate() {
+        updateProg("reset");
+        updateProg();
     }
     ini1stTaskCreator() {
         // Initialize taskCreator if there are no projects

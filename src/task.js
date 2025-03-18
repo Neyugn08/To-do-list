@@ -1,6 +1,6 @@
 import {Window} from "./window.js";
 import {mnpltr} from "./storage.js";
-import {format} from "date-fns";
+import updateProg from "./progressBar.js";
 import {Projects} from "./projects.js";
 const window = document.querySelector(".window");
 export class Task {
@@ -29,6 +29,7 @@ export class Task {
         if (this.status !== null) status.checked = this.status;
         status.addEventListener("click", () => {
             this.status = status.checked;
+            updateProg();
             mnpltr.savePrjsStorage();
         });
         // name
@@ -67,7 +68,6 @@ export class Task {
                         if (Projects.listProjects[i].tasks[j].date == this.date &&
                             Projects.listProjects[i].tasks[j].name == this.name
                         ) {
-                            console.log(Projects.listProjects[i]);
                             const index = j;
                             Projects.listProjects[i].tasks.splice(index, 1);
                             break loop;
@@ -75,6 +75,7 @@ export class Task {
                     }  
                 }
             }
+            updateProg();
             // remove from the storage
             mnpltr.savePrjsStorage();
         });

@@ -1,7 +1,7 @@
 import './style.css';
 import ObjCreator from "./objCreation.js";
 import {mnpltr} from "./storage.js";
-import { Project } from './project.js';
+import {Project} from './project.js';
 const projects = document.querySelector(".projects");
 export let maxProjectCreator = 1;
 export let maxTaskCreator = 1;
